@@ -23,15 +23,20 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 
 	for (i = 0; i < nb_vertices; i++)
 	{
-		if (*(g_vertex->content) == *str)
+		if (strcmp(g_vertex->content, str) == 0)
 		{
-			free(g_vertex);
+			free(new_vertex);
 			return (NULL);
 		}
 		g_vertex++;
 	}
 
-	strcpy(new_vertex->content, str);
+	new_vertex->content = strdup(str);
+	if (new_vertex->content == NULL)
+	{
+		free(new_vertex);
+		return (NULL);
+	}
 	new_vertex->edges = NULL;
 	new_vertex->nb_edges = 0;
 
@@ -49,5 +54,5 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	graph->vertices = new_vertices;
 	graph->vertices[graph->nb_vertices++] = *new_vertex;
 
-	return (new_vertex);
+	return (&graph->vertices[graph->nb_vertices - 1]);
 }
