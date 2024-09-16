@@ -12,6 +12,6 @@ graph_t *graph_create(void)
                 return (NULL);
         }
 
-        graph->nb_vertices = NULL;
+        graph->nb_vertices = 0;
         graph->vertices = vertices;
 }
