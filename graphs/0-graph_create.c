@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "graphs.h"
 
 graph_t *graph_create(void)
