@@ -3,12 +3,12 @@
 #include "graphs.h"
 
 /**
- * graph_add_new_vertex - add a new vertex to graph.
+ * graph_add_vertex - add a new vertex to graph.
  * @graph: the graph to a new vertex.
  * @str: string on vertex.
  * Return: newly add vertex | NULL.
  */
-vertex_t *graph_add_new_vertex(graph_t *graph, const char *str)
+vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
 	vertex_t *new_vertex = malloc(sizeof(vertex_t));
 	vertex_t *g_vertex = graph->vertices;
