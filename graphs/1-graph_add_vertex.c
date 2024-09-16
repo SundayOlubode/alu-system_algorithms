@@ -12,6 +12,7 @@ vertex_t *graph_add_new_vertex(graph_t *graph, const char *str)
 {
 	vertex_t *new_vertex = malloc(sizeof(vertex_t));
 	vertex_t *g_vertex = graph->vertices;
+	vertex_t *new_vertices;
 	int i;
 	int nb_vertices = graph->nb_vertices;
 
@@ -34,7 +35,7 @@ vertex_t *graph_add_new_vertex(graph_t *graph, const char *str)
 	new_vertex->edges = NULL;
 	new_vertex->nb_edges = 0;
 
-	vertex_t *new_vertices = realloc(
+	new_vertices = realloc(
 	    graph->vertices,
 	    (graph->nb_vertices + 1) * sizeof(vertex_t));
 
