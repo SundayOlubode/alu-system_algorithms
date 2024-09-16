@@ -12,6 +12,7 @@ graph_t *graph_create(void)
         }
 
         graph->nb_vertices = 0;
+        graph->vertices = NULL;
 
         return (graph);
 }
