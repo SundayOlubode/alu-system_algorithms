@@ -6,13 +6,14 @@ vertex_t *graph_add_new_vertex(graph_t *graph, const char *str)
 {
 	vertex_t *new_vertex = malloc(sizeof(vertex_t));
 	vertex_t *g_vertex = graph->vertices;
+	int i;
 
 	if (new_vertex == NULL)
 	{
 		return (NULL);
 	}
 
-	for (int i = 0; i < graph->nb_vertices; i++)
+	for (i = 0; i < graph->nb_vertices; i++)
 	{
 		if (*(g_vertex->content) == *str)
 		{
