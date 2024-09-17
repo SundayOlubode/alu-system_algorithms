@@ -15,9 +15,7 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	vertex_t *prev_g_vertex;
 
 	if (new_vertex == NULL)
-	{
 		return (NULL);
-	}
 
 	while (g_vertex != NULL)
 	{
@@ -36,19 +34,16 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 		free(new_vertex);
 		return (NULL);
 	}
+
 	new_vertex->index = 0;
 	new_vertex->edges = NULL;
 	new_vertex->nb_edges = 0;
 	new_vertex->next = NULL;
 
 	if (graph->nb_vertices == 0)
-	{
 		graph->vertices = new_vertex;
-	}
 	else
-	{
 		new_vertex->index = prev_g_vertex->index + 1;
-	}
 
 	graph->nb_vertices++;
 
