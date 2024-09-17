@@ -31,6 +31,7 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 		}
 		g_vertex++;
 	}
+	free(i);
 
 	new_vertex->content = strdup(str);
 	if (new_vertex->content == NULL)
