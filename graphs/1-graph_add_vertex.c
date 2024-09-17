@@ -36,7 +36,6 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	if (new_vertex->content == NULL)
 	{
 		free(new_vertex);
-		free(new_vertices);
 		return (NULL);
 	}
 	new_vertex->edges = NULL;
