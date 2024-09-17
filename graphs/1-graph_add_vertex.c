@@ -21,14 +21,14 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 		return (NULL);
 	}
 
-	for (i = 0; i < nb_vertices; i++)
+	while (g_vertex)
 	{
 		if (strcmp(g_vertex->content, str) == 0)
 		{
 			free(new_vertex);
 			return (NULL);
 		}
-		g_vertex++;
+		g_vertex = g_vertex->next;
 	}
 
 	new_vertex->content = strdup(str);
@@ -37,8 +37,10 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 		free(new_vertex);
 		return (NULL);
 	}
+	new_vertex->index = 0;
 	new_vertex->edges = NULL;
 	new_vertex->nb_edges = 0;
+	new_vertex->next = NULL;
 
 	new_vertices = realloc(
 	    graph->vertices,
