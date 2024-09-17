@@ -12,14 +12,13 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
 	vertex_t *new_vertex = malloc(sizeof(vertex_t));
 	vertex_t *g_vertex = graph->vertices;
-	vertex_t *new_vertices;
 
 	if (new_vertex == NULL)
 	{
 		return (NULL);
 	}
 
-	while (g_vertex)
+	while (g_vertex != NULL)
 	{
 		if (strcmp(g_vertex->content, str) == 0)
 		{
@@ -40,19 +39,22 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	new_vertex->nb_edges = 0;
 	new_vertex->next = NULL;
 
-	new_vertices = realloc(
-	    graph->vertices,
-	    (graph->nb_vertices + 1) * sizeof(vertex_t));
-
-	if (new_vertices == NULL)
+	if (graph->nb_vertices)
 	{
-		free(new_vertex->content);
-		free(new_vertex);
-		return (NULL);
+		graph->vertices = new_vertex;
+	}
+	else
+	{
+		g_vertex = graph->vertices;
+		while (g_vertex->next != NULL)
+		{
+			g_vertex = g_vertex->next;
+		}
+		g_vertex->next = new_vertex;
+		new_vertex->index = g_vertex->index + 1;
 	}
 
-	graph->vertices = new_vertices;
-	graph->vertices[graph->nb_vertices++] = *new_vertex;
+	graph->nb_vertices++;
 
-	return (&graph->vertices[graph->nb_vertices - 1]);
+	return (new_vertex);
 }
