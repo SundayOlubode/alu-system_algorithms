@@ -13,8 +13,6 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 	vertex_t *new_vertex = malloc(sizeof(vertex_t));
 	vertex_t *g_vertex = graph->vertices;
 	vertex_t *new_vertices;
-	int i;
-	int nb_vertices = graph->nb_vertices;
 
 	if (new_vertex == NULL)
 	{
