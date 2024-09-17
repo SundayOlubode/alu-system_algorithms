@@ -26,12 +26,10 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 		if (strcmp(g_vertex->content, str) == 0)
 		{
 			free(new_vertex);
-			/* free(new_vertices);*/
 			return (NULL);
 		}
 		g_vertex++;
 	}
-	free(&i);
 
 	new_vertex->content = strdup(str);
 	if (new_vertex->content == NULL)
