@@ -3,6 +3,8 @@
 #include "graphs.h"
 
 vertex_t *get_vertex(graph_t *graph, const char *src);
+edge_t *create_edge(vertex_t *src_vertex,
+                    vertex_t *dest_vertex, edge_type_t type);
 
 /**
  * graph_add_edge - adds an edge to two vertices in the given graph.
