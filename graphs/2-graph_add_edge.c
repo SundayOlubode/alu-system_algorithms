@@ -4,7 +4,7 @@
 
 vertex_t *get_vertex(graph_t *graph, const char *src);
 edge_t *create_edge(vertex_t *src_vertex,
-                    vertex_t *dest_vertex, edge_type_t type);
+		    vertex_t *dest_vertex, edge_type_t type);
 
 /**
  * graph_add_edge - adds an edge to two vertices in the given graph.
@@ -15,45 +15,46 @@ edge_t *create_edge(vertex_t *src_vertex,
  *
  * Return: 1 | 0
  */
-int graph_add_edge(graph_t *graph, const char *src, const char *dest, edge_type_t type)
+int graph_add_edge(graph_t *graph, const char *src,
+		   const char *dest, edge_type_t type)
 {
-        vertex_t *src_vertex, *dest_vertex;
-        edge_t *edge;
+	vertex_t *src_vertex, *dest_vertex;
+	edge_t *edge;
 
-        if (graph == NULL || src == NULL || dest == NULL)
-        {
-                return (0);
-        }
-        if (type != UNIDIRECTIONAL && type != BIDIRECTIONAL)
-        {
-                return (0);
-        }
+	if (graph == NULL || src == NULL || dest == NULL)
+	{
+		return (0);
+	}
+	if (type != UNIDIRECTIONAL && type != BIDIRECTIONAL)
+	{
+		return (0);
+	}
 
-        /*find src vertex*/
-        src_vertex = get_vertex(graph, src);
-        if (src_vertex == NULL)
-        {
-                return (0);
-        }
+	/*find src vertex*/
+	src_vertex = get_vertex(graph, src);
+	if (src_vertex == NULL)
+	{
+		return (0);
+	}
 
-        /*find dest vertex*/
-        dest_vertex = get_vertex(graph, dest);
-        if (dest_vertex == NULL)
-        {
-                return (0);
-        }
+	/*find dest vertex*/
+	dest_vertex = get_vertex(graph, dest);
+	if (dest_vertex == NULL)
+	{
+		return (0);
+	}
 
-        /*connect edge*/
-        edge = create_edge(src_vertex, dest_vertex, type);
-        if (edge == NULL)
-        {
-                return (0);
-        }
+	/*connect edge*/
+	edge = create_edge(src_vertex, dest_vertex, type);
+	if (edge == NULL)
+	{
+		return (0);
+	}
 
-        src_vertex->nb_edges++;
-        dest_vertex->nb_edges++;
+	src_vertex->nb_edges++;
+	dest_vertex->nb_edges++;
 
-        return (1);
+	return (1);
 }
 
 /**
@@ -66,18 +67,18 @@ int graph_add_edge(graph_t *graph, const char *src, const char *dest, edge_type_
  */
 vertex_t *get_vertex(graph_t *graph, const char *str)
 {
-        vertex_t *g_vertex = graph->vertices;
+	vertex_t *g_vertex = graph->vertices;
 
-        while (g_vertex != NULL)
-        {
-                if (strcmp(g_vertex->content, str) == 0)
-                {
-                        return (g_vertex);
-                }
-        }
+	while (g_vertex != NULL)
+	{
+		if (strcmp(g_vertex->content, str) == 0)
+		{
+			return (g_vertex);
+		}
+	}
 
-        free(g_vertex);
-        return (NULL);
+	free(g_vertex);
+	return (NULL);
 }
 
 /**
@@ -90,36 +91,36 @@ vertex_t *get_vertex(graph_t *graph, const char *str)
  * Return: egde pointer | NULL.
  */
 edge_t *create_edge(vertex_t *src_vertex,
-                    vertex_t *dest_vertex, edge_type_t type)
+		    vertex_t *dest_vertex, edge_type_t type)
 {
-        edge_t *edge = malloc(sizeof(edge_t));
+	edge_t *edge = malloc(sizeof(edge_t));
 
-        if (edge == NULL)
-        {
-                return (NULL);
-        }
+	if (edge == NULL)
+	{
+		return (NULL);
+	}
 
-        edge->dest = dest_vertex;
-        edge->next = NULL;
+	edge->dest = dest_vertex;
+	edge->next = NULL;
 
-        if (type == BIDIRECTIONAL)
-        {
+	if (type == BIDIRECTIONAL)
+	{
 
-                edge_t *reverse_edge = malloc(sizeof(edge_t));
+		edge_t *reverse_edge = malloc(sizeof(edge_t));
 
-                if (reverse_edge == NULL)
-                {
-                        free(edge);
-                        return (NULL);
-                }
+		if (reverse_edge == NULL)
+		{
+			free(edge);
+			return (NULL);
+		}
 
-                reverse_edge->dest = src_vertex;
-                reverse_edge->next = dest_vertex->edges;
-                dest_vertex->edges = reverse_edge;
-        }
+		reverse_edge->dest = src_vertex;
+		reverse_edge->next = dest_vertex->edges;
+		dest_vertex->edges = reverse_edge;
+	}
 
-        edge->next = src_vertex->edges;
-        src_vertex->edges = edge;
+	edge->next = src_vertex->edges;
+	src_vertex->edges = edge;
 
-        return (edge);
+	return (edge);
 }
