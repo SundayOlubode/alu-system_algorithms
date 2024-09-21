@@ -78,7 +78,6 @@ vertex_t *get_vertex(graph_t *graph, const char *str)
 		g_vertex = g_vertex->next;
 	}
 
-	free(g_vertex);
 	return (NULL);
 }
 
