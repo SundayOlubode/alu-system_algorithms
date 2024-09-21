@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "graphs.h"
 
 void free_edges(vertex_t *vertex);
@@ -11,13 +12,15 @@ void free_edges(vertex_t *vertex);
  */
 void graph_delete(graph_t *graph)
 {
-	vertex_t *current_vertex = graph->vertices;
+	vertex_t *current_vertex;
 	vertex_t *next_vertex;
 
 	if (graph == NULL)
 	{
 		return;
 	}
+
+	current_vertex = graph->vertices;
 
 	while (current_vertex != NULL)
 	{
