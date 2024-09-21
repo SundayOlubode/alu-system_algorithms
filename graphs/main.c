@@ -4,6 +4,7 @@
 #include "graphs.h"
 #include "graph_display.c"
 #include "1-graph_add_vertex.c"
+#include "2-graph_add_edge.c"
 #include "0-graph_create.c"
 
 /**
@@ -22,15 +23,8 @@ int main(void)
 		return (EXIT_FAILURE);
 	}
 
-	if (!graph_add_vertex(graph, "San Francisco"))
-	{
-		fprintf(stderr, "Failed to add vertex\n");
-		return (EXIT_FAILURE);
-	}
-
-	graph_display(graph);
-
-	if (!graph_add_vertex(graph, "Seattle") ||
+	if (!graph_add_vertex(graph, "San Francisco") ||
+	    !graph_add_vertex(graph, "Seattle") ||
 	    !graph_add_vertex(graph, "New York") ||
 	    !graph_add_vertex(graph, "Miami") ||
 	    !graph_add_vertex(graph, "Chicago") ||
@@ -42,10 +36,22 @@ int main(void)
 		return (EXIT_FAILURE);
 	}
 
-	graph_display(graph);
+	if (!graph_add_edge(graph, "San Francisco", "Las Vegas", BIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Boston", "New York", UNIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Miami", "San Francisco", BIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Houston", "Seattle", UNIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Chicago", "New York", BIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Las Vegas", "New York", UNIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Seattle", "Chicago", UNIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "New York", "Houston", BIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "Seattle", "Miami", BIDIRECTIONAL) ||
+	    !graph_add_edge(graph, "San Francisco", "Boston", BIDIRECTIONAL))
+	{
+		fprintf(stderr, "Failed to add edge\n");
+		return (EXIT_FAILURE);
+	}
 
-	if (!graph_add_vertex(graph, "San Francisco"))
-		fprintf(stderr, "Failed to add \"San Francisco\"\n");
+	graph_display(graph);
 
 	return (EXIT_SUCCESS);
 }
