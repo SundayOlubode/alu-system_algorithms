@@ -4,7 +4,7 @@
 
 vertex_t *get_vertex(graph_t *graph, const char *src);
 int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type);
-edge_t *create_single_edge(vertex_t *src_vertex, vertex_t *dest_vertex);
+edge_t *create_single_edge(vertex_t *dest_vertex);
 void append_edge(vertex_t *vertex, edge_t *new_edge);
 
 /**
@@ -97,7 +97,7 @@ int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type)
 	edge_t *edge;
 
 	/* Create and append the forward edge */
-	edge = create_single_edge(src_vertex, dest_vertex);
+	edge = create_single_edge(dest_vertex);
 	if (edge == NULL)
 	{
 		return (0);
@@ -107,7 +107,7 @@ int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type)
 	/* Handle bidirectional edges */
 	if (type == BIDIRECTIONAL)
 	{
-		edge_t *reverse_edge = create_single_edge(dest_vertex, src_vertex);
+		edge_t *reverse_edge = create_single_edge(src_vertex);
 
 		if (reverse_edge == NULL)
 		{
@@ -122,12 +122,11 @@ int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type)
 
 /**
  * create_single_edge - creates a single edge between two vertices.
- * @src_vertex: the source vertex.
  * @dest_vertex: the destination vertex.
  *
  * Return: pointer to the new edge | NULL.
  */
-edge_t *create_single_edge(vertex_t *src_vertex, vertex_t *dest_vertex)
+edge_t *create_single_edge(vertex_t *dest_vertex)
 {
 	edge_t *edge = malloc(sizeof(edge_t));
 
