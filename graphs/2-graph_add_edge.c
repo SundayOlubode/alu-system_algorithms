@@ -51,8 +51,8 @@ int graph_add_edge(graph_t *graph, const char *src,
 		return (0);
 	}
 
-	src_vertex->nb_edges++;
-	dest_vertex->nb_edges++;
+	src_vertex->nb_edges += 1;
+	dest_vertex->nb_edges += 1;
 
 	return (1);
 }
