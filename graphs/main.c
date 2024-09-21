@@ -7,6 +7,19 @@
 #include "2-graph_add_edge.c"
 #include "0-graph_create.c"
 #include "3-graph_delete.c"
+#include "5-breadth_first_traverse.c"
+
+/**
+ * traverse_action - Action to be executed for each visited vertex
+ * during traversal
+ *
+ * @v: Pointer to the visited vertex
+ * @depth: Depth of the vertex in graph from vertex 0
+ */
+void traverse_action(const vertex_t *v, size_t depth)
+{
+	printf("%*s[%lu] %s\n", (int)depth * 4, "", v->index, v->content);
+}
 
 /**
  * main - Entry point
@@ -16,6 +29,7 @@
 int main(void)
 {
 	graph_t *graph;
+	size_t depth;
 
 	graph = graph_create();
 	if (!graph)
@@ -54,8 +68,11 @@ int main(void)
 
 	graph_display(graph);
 
+	printf("\nBreadth First Traversal:\n");
+	depth = breadth_first_traverse(graph, &traverse_action);
+	printf("\nDepth: %lu\n", depth);
+
 	graph_delete(graph);
-	graph_delete(NULL);
 
 	return (EXIT_SUCCESS);
 }
