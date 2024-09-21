@@ -6,6 +6,7 @@
 #include "1-graph_add_vertex.c"
 #include "2-graph_add_edge.c"
 #include "0-graph_create.c"
+#include "3-graph_delete.c"
 
 /**
  * main - Entry point
@@ -52,6 +53,8 @@ int main(void)
 	}
 
 	graph_display(graph);
+
+	graph_delete(graph);
 
 	return (EXIT_SUCCESS);
 }
