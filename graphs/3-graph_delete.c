@@ -14,6 +14,11 @@ void graph_delete(graph_t *graph)
 	vertex_t *current_vertex = graph->vertices;
 	vertex_t *next_vertex;
 
+	if (graph == NULL)
+	{
+		return;
+	}
+
 	while (current_vertex != NULL)
 	{
 		free_edges(current_vertex);
