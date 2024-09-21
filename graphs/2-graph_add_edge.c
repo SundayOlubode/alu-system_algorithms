@@ -3,8 +3,9 @@
 #include "graphs.h"
 
 vertex_t *get_vertex(graph_t *graph, const char *src);
-edge_t *create_edge(vertex_t *src_vertex,
-		    vertex_t *dest_vertex, edge_type_t type);
+int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type);
+edge_t *create_single_edge(vertex_t *src_vertex, vertex_t *dest_vertex);
+void append_edge(vertex_t *vertex, edge_t *new_edge);
 
 /**
  * graph_add_edge - adds an edge to two vertices in the given graph.
@@ -19,7 +20,7 @@ int graph_add_edge(graph_t *graph, const char *src,
 		   const char *dest, edge_type_t type)
 {
 	vertex_t *src_vertex, *dest_vertex;
-	edge_t *edge;
+	int edge_is_created;
 
 	if (graph == NULL || src == NULL || dest == NULL)
 	{
@@ -45,8 +46,8 @@ int graph_add_edge(graph_t *graph, const char *src,
 	}
 
 	/*connect edge*/
-	edge = create_edge(src_vertex, dest_vertex, type);
-	if (edge == NULL)
+	edge_is_created = create_edge(src_vertex, dest_vertex, type);
+	if (edge_is_created == 0)
 	{
 		return (0);
 	}
@@ -82,16 +83,51 @@ vertex_t *get_vertex(graph_t *graph, const char *str)
 }
 
 /**
- * create_edge - creates an edge
+ * create_edge - creates an edge (unidirectional or bidirectional)
+ * between two vertices.
  *
  * @src_vertex: source vertex.
  * @dest_vertex: destination vertex.
  * @type: BIDIRECTIONAL | UNIDIRECTIONAL.
  *
- * Return: egde pointer | NULL.
+ * Return: 1 on success, 0 on failure.
  */
-edge_t *create_edge(vertex_t *src_vertex,
-		    vertex_t *dest_vertex, edge_type_t type)
+int create_edge(vertex_t *src_vertex, vertex_t *dest_vertex, edge_type_t type)
+{
+	edge_t *edge;
+
+	/* Create and append the forward edge */
+	edge = create_single_edge(src_vertex, dest_vertex);
+	if (edge == NULL)
+	{
+		return (0);
+	}
+	append_edge(src_vertex, edge);
+
+	/* Handle bidirectional edges */
+	if (type == BIDIRECTIONAL)
+	{
+		edge_t *reverse_edge = create_single_edge(dest_vertex, src_vertex);
+
+		if (reverse_edge == NULL)
+		{
+			free(edge);
+			return (0);
+		}
+		append_edge(dest_vertex, reverse_edge);
+	}
+
+	return (1);
+}
+
+/**
+ * create_single_edge - creates a single edge between two vertices.
+ * @src_vertex: the source vertex.
+ * @dest_vertex: the destination vertex.
+ *
+ * Return: pointer to the new edge | NULL.
+ */
+edge_t *create_single_edge(vertex_t *src_vertex, vertex_t *dest_vertex)
 {
 	edge_t *edge = malloc(sizeof(edge_t));
 
@@ -103,46 +139,28 @@ edge_t *create_edge(vertex_t *src_vertex,
 	edge->dest = dest_vertex;
 	edge->next = NULL;
 
-	if (src_vertex->edges == NULL)
+	return (edge);
+}
+
+/**
+ * append_edge - appends a newly created edge to a vertex's edge list.
+ * @vertex: the vertex whose edge list will be appended.
+ * @new_edge: the edge to append.
+ */
+void append_edge(vertex_t *vertex, edge_t *new_edge)
+{
+	if (vertex->edges == NULL)
 	{
-		src_vertex->edges = edge;
+		vertex->edges = new_edge;
 	}
 	else
 	{
-		edge_t *current = src_vertex->edges;
+		edge_t *current = vertex->edges;
+
 		while (current->next != NULL)
 		{
 			current = current->next;
 		}
-		current->next = edge;
+		current->next = new_edge;
 	}
-
-	if (type == BIDIRECTIONAL)
-	{
-		edge_t *reverse_edge = malloc(sizeof(edge_t));
-		if (reverse_edge == NULL)
-		{
-			free(edge);
-			return (NULL);
-		}
-
-		reverse_edge->dest = src_vertex;
-		reverse_edge->next = NULL;
-
-		if (dest_vertex->edges == NULL)
-		{
-			dest_vertex->edges = reverse_edge;
-		}
-		else
-		{
-			edge_t *current_dest = dest_vertex->edges;
-			while (current_dest->next != NULL)
-			{
-				current_dest = current_dest->next;
-			}
-			current_dest->next = reverse_edge;
-		}
-	}
-
-	return (edge);
 }
