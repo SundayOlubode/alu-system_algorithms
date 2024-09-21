@@ -103,11 +103,23 @@ edge_t *create_edge(vertex_t *src_vertex,
 	edge->dest = dest_vertex;
 	edge->next = NULL;
 
+	if (src_vertex->edges == NULL)
+	{
+		src_vertex->edges = edge;
+	}
+	else
+	{
+		edge_t *current = src_vertex->edges;
+		while (current->next != NULL)
+		{
+			current = current->next;
+		}
+		current->next = edge;
+	}
+
 	if (type == BIDIRECTIONAL)
 	{
-
 		edge_t *reverse_edge = malloc(sizeof(edge_t));
-
 		if (reverse_edge == NULL)
 		{
 			free(edge);
@@ -115,12 +127,22 @@ edge_t *create_edge(vertex_t *src_vertex,
 		}
 
 		reverse_edge->dest = src_vertex;
-		reverse_edge->next = dest_vertex->edges;
-		dest_vertex->edges = reverse_edge;
-	}
+		reverse_edge->next = NULL;
 
-	edge->next = src_vertex->edges;
-	src_vertex->edges = edge;
+		if (dest_vertex->edges == NULL)
+		{
+			dest_vertex->edges = reverse_edge;
+		}
+		else
+		{
+			edge_t *current_dest = dest_vertex->edges;
+			while (current_dest->next != NULL)
+			{
+				current_dest = current_dest->next;
+			}
+			current_dest->next = reverse_edge;
+		}
+	}
 
 	return (edge);
 }
