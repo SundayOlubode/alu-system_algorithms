@@ -1,48 +1,81 @@
-#include <stdlib.h>
-#include <string.h>
 #include "graphs.h"
+#include <string.h>
+#include <stdlib.h>
+
+vertex_t *create_vertex(const char *str);
 
 /**
- * graph_add_vertex - add a new vertex to graph.
- * @graph: the graph to a new vertex.
- * @str: string on vertex.
- * Return: newly add vertex | NULL.
+ * graph_add_vertex - adds a vertex to the graph
+ * @graph: pointer to graph type
+ * @str: string value for new vertex
+ * Return: pointer to vertex or null
  */
 vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
-	vertex_t *new_vertex = malloc(sizeof(vertex_t));
-	vertex_t *g_vertex = graph->vertices;
+	vertex_t *vertex_ptr, *prev_vertex_ptr, *vertex;
 
 	if (graph == NULL || str == NULL)
-		return (NULL);
-
-	if (new_vertex == NULL)
-		return (NULL);
-
-	new_vertex->content = strdup(str);
-	if (new_vertex->content == NULL)
 	{
-		free(new_vertex);
 		return (NULL);
 	}
 
-	new_vertex->edges = NULL;
-	new_vertex->nb_edges = 0;
-	new_vertex->index = graph->nb_vertices;
-	new_vertex->next = NULL;
+	vertex_ptr = graph->vertices;
 
-	if (graph->vertices == NULL)
+	/* Check if the vertex with the str already exists */
+	while (vertex_ptr)
 	{
-		graph->vertices = new_vertex;
+		if (strcmp(vertex_ptr->content, str) == 0)
+		{
+			return (NULL);
+		}
+
+		prev_vertex_ptr = vertex_ptr;
+		vertex_ptr = vertex_ptr->next;
+	}
+
+	/*Create a new vertex*/
+	vertex = create_vertex(str);
+
+	if (vertex == NULL)
+	{
+		return (NULL);
+	}
+
+	if (graph->nb_vertices == 0)
+	{
+		graph->vertices = vertex;
+		vertex->index = 0;
 	}
 	else
 	{
-		g_vertex = graph->vertices;
-		while (g_vertex->next != NULL)
-			g_vertex = g_vertex->next;
-		g_vertex->next = new_vertex;
+		prev_vertex_ptr->next = vertex;
+		vertex->index = prev_vertex_ptr->index + 1;
 	}
 
-	graph->nb_vertices++;
-	return (new_vertex);
+	graph->nb_vertices += 1;
+
+	return (vertex);
+}
+
+/**
+ * create_vertex - create a new vertex
+ * @str: string value for the new vertex
+ * Return: a pointer to the new vertex
+ */
+vertex_t *create_vertex(const char *str)
+{
+	vertex_t *vertex = malloc(sizeof(vertex_t));
+
+	if (vertex == NULL)
+	{
+		return (NULL);
+	}
+
+	vertex->content = strdup(str);
+	vertex->index = 0;
+	vertex->edges = NULL;
+	vertex->nb_edges = 0;
+	vertex->next = NULL;
+
+	return (vertex);
 }
