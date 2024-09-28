@@ -25,7 +25,7 @@ static int symbol_cmp(void *p1, void *p2)
 }
 
 /**
- * huffman_priority_queue - Creates a priority queue for the Huffman coding algorithm
+ * huffman_priority_queue - Creates a priority queue for the Huffman algorithm
  * @data: An array of characters of size `size`
  * @freq: An array containing the associated frequencies (of size `size`)
  * @size: Size of the array
