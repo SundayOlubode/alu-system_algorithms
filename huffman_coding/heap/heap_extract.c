@@ -102,9 +102,8 @@ static void swap(void **a, void **b)
  */
 static void adjust_heap(heap_t *heap)
 {
-	binary_tree_node_t *temp;
+	binary_tree_node_t *temp = heap->root;
 
-	temp = heap->root;
 	while (temp)
 	{
 		if (temp->data && temp->left && temp->right &&
@@ -126,8 +125,7 @@ static void adjust_heap(heap_t *heap)
 				return;
 		}
 		else if (temp->data && temp->left &&
-			 ((temp->left->data &&
-			   heap->data_cmp(temp->data, temp->left->data) >= 0) ||
+			 ((temp->left->data && heap->data_cmp(temp->data, temp->left->data) >= 0) ||
 			  temp->left->data == NULL))
 		{
 			swap(&temp->data, &temp->left->data);
