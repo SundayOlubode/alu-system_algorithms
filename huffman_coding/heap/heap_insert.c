@@ -113,7 +113,8 @@ static void adjust_heap(heap_t *heap, binary_tree_node_t *node)
 	{
 		if (temp->data == NULL)
 			swap(&temp->data, &temp->parent->data);
-		else if (temp->parent->data && heap->data_cmp(temp->data, temp->parent->data) < 0)
+		else if (temp->parent->data &&
+			 heap->data_cmp(temp->data, temp->parent->data) < 0)
 			swap(&temp->data, &temp->parent->data);
 		temp = temp->parent;
 	}
