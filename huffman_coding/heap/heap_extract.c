@@ -107,10 +107,12 @@ static void adjust_heap(heap_t *heap)
 	temp = heap->root;
 	while (temp)
 	{
-		if (temp->data && temp->left && temp->right && temp->left->data && temp->right->data)
+		if (temp->data && temp->left && temp->right &&
+		    temp->left->data && temp->right->data)
 		{
-			if ((heap->data_cmp(temp->data, temp->right->data) >= 0) && (heap->data_cmp(temp->right->data,
-												    temp->left->data) < 0))
+			if ((heap->data_cmp(temp->data, temp->right->data) >= 0) &&
+			    (heap->data_cmp(temp->right->data,
+					    temp->left->data) < 0))
 			{
 				swap(&temp->data, &temp->right->data);
 				temp = temp->right;
