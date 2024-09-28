@@ -5,7 +5,8 @@
 #include "huffman.h"
 
 /**
- * huffman_extract_and_insert - Extracts two nodes from the priority queue and inserts a new one
+ * huffman_extract_and_insert - Extracts two nodes from the priority
+ * 				queue and inserts a new one
  * @priority_queue: Pointer to the priority queue to extract from
  *
  * Return: 1 on success or 0 on failure
